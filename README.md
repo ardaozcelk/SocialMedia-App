@@ -8,6 +8,10 @@ A social media platform where users can create posts, like, comment, and follow 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/20c7b35b-9975-438a-ac2e-33c52290e265" alt="login">
 </p>
+<p align="center">
+  If you have forgotten your password, you can reset your password by clicking Forgot password.
+And enter your username and mail information on the redirected page. If the information is correct, you can check your e-mail and reset your password.
+</p>
 
 <h2 align="center">Register Page</h2>
 <p align="center">
