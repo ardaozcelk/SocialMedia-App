@@ -11,7 +11,7 @@ A social media platform where users can create posts, like, comment, and follow 
 ![register](https://github.com/user-attachments/assets/3ccc706c-0fd0-442f-a151-7137b84734de)
 
 <h2 align="center">Homepage</h2>
-![home](https://github.com/user-attachments/assets/3c15e332-01c5-43c0-b675-2c3ad7fdd4b1)
+![home](https://github.com/user-attachments/assets/26bfce12-39c8-400f-af23-0b5afd2aaa23)
 
 <h2 align="center">Post Introduction</h2>
 ![post](https://github.com/user-attachments/assets/1168e632-0642-4d5b-b1bb-9e6c1e38bc4f)
