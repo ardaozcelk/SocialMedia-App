@@ -64,6 +64,10 @@ A social media platform where users can create posts, like, comment, and follow 
   <img src="https://github.com/user-attachments/assets/471adc86-2f8c-43f5-a8d7-79012985616a" alt="archieve-private-post">
 </p>
 
+<h2 align="center">Viewers Page</h2>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e998db2f-680b-42bd-b183-99d9f0ea7d81" alt="viewers">
+</p>
 
 
 
