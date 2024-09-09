@@ -10,7 +10,7 @@ A social media platform where users can create posts, like, comment, and follow 
 <h2 align="center">Register Page</h2>
 ![register](https://github.com/user-attachments/assets/3ccc706c-0fd0-442f-a151-7137b84734de)
 
-<h2 align="center">Homepage</h2>
+##Home Page
 ![home](https://github.com/user-attachments/assets/26bfce12-39c8-400f-af23-0b5afd2aaa23)
 
 <h2 align="center">Post Introduction</h2>
