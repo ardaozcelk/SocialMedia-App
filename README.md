@@ -5,40 +5,65 @@ A social media platform where users can create posts, like, comment, and follow 
 ## Screenshots
 
 <h2 align="center">Login Page</h2>
-![login](https://github.com/user-attachments/assets/20c7b35b-9975-438a-ac2e-33c52290e265)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/20c7b35b-9975-438a-ac2e-33c52290e265" alt="login">
+</p>
 
 <h2 align="center">Register Page</h2>
-![register](https://github.com/user-attachments/assets/3ccc706c-0fd0-442f-a151-7137b84734de)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3ccc706c-0fd0-442f-a151-7137b84734de" alt="register">
+</p>
 
-## Home Page
-![home](https://github.com/user-attachments/assets/26bfce12-39c8-400f-af23-0b5afd2aaa23)
+<h2 align="center">Homepage</h2>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3c15e332-01c5-43c0-b675-2c3ad7fdd4b1" alt="home">
+</p>
 
 <h2 align="center">Post Introduction</h2>
-![post](https://github.com/user-attachments/assets/1168e632-0642-4d5b-b1bb-9e6c1e38bc4f)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1168e632-0642-4d5b-b1bb-9e6c1e38bc4f" alt="post">
+</p>
 
 <h2 align="center">Comment</h2>
-![comment](https://github.com/user-attachments/assets/35ab686d-eeef-4284-96bc-a72613a1e68a)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/35ab686d-eeef-4284-96bc-a72613a1e68a" alt="comment">
+</p>
 
 <h2 align="center">Profile Page</h2>
-![profile](https://github.com/user-attachments/assets/551f83ef-4b78-4159-8fd8-26b33d52c461)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/551f83ef-4b78-4159-8fd8-26b33d52c461" alt="profile">
+</p>
 
 <h2 align="center">Search Page</h2>
-![search](https://github.com/user-attachments/assets/a789a2e4-a11f-4b40-afaa-823a05e24865)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a789a2e4-a11f-4b40-afaa-823a05e24865" alt="search">
+</p>
 
 <h2 align="center">Add-Post Page</h2>
-![add_post](https://github.com/user-attachments/assets/e1930cbc-9944-48b2-a9bf-91e69bcc1fcf)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e1930cbc-9944-48b2-a9bf-91e69bcc1fcf" alt="add_post">
+</p>
 
 <h2 align="center">Activity Page</h2>
-![activity](https://github.com/user-attachments/assets/d5c1fe2c-0aee-41b6-b44d-90af8d04f54f)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d5c1fe2c-0aee-41b6-b44d-90af8d04f54f" alt="activity">
+</p>
 
 <h2 align="center">Reset-Password Page</h2>
-![reset-password](https://github.com/user-attachments/assets/48cf1238-4a71-446b-85b6-15e921421e96)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/48cf1238-4a71-446b-85b6-15e921421e96" alt="reset-password">
+</p>
 
 <h2 align="center">Archieve-Story Page</h2>
-![archieve-story](https://github.com/user-attachments/assets/05a102ff-56a7-4b10-9940-6b781b67dcf4)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/05a102ff-56a7-4b10-9940-6b781b67dcf4" alt="archieve-story">
+</p>
 
 <h2 align="center">Archieve-Private-Post Page</h2>
-![archieve-private-post](https://github.com/user-attachments/assets/471adc86-2f8c-43f5-a8d7-79012985616a)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/471adc86-2f8c-43f5-a8d7-79012985616a" alt="archieve-private-post">
+</p>
+
 
 
 
