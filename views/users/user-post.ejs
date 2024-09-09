@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+
+    <title>Friendly</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gupter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Gupter", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .side {
+                padding-top: 0%;
+            }
+
+            .card {
+                width: 300px;
+            }
+        }
+
+        .like-button img:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+
+        .like-button img:active {
+            transform: scale(0.9);
+            transition: transform 0.2s;
+        }
+
+        .comment-button img:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+
+        .comment-button img:active {
+            transform: scale(0.9);
+            transition: transform 0.2s;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Sidebar -->
+    <%- include('../partials/side-bar') %>
+
+        <!-- Main Content -->
+        <main class="main-content ml-64 p-4">
+            <!-- Header -->
+            <%- include('../partials/header') %>
+
+                <!-- Post Section -->
+                <section class="container mx-auto px-12 ">
+                    <div class="flex justify-center items-start min-h-screen ml-36">
+                        <!-- Center Column: Single Post -->
+
+
+
+                        <div class="flex flex-col space-y-9 max-w-5xl w-full">
+                            <div class="bg-white shadow-lg rounded-lg overflow-hidden w-4/5 max-h-screen flex flex-col">
+                                <!-- Üç Nokta Menü Butonu -->
+                                <div class="relative p-2 flex items-center justify-between">
+                                    <a href="/profile/user/<%= post.userId.username %>">
+                                        <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300">
+                                            <% if (post.userId.profilePhoto===undefined) { %>
+                                                <img src="/static/images/isEmptyUser.png" alt="Profile Picture"
+                                                    class="w-full h-full object-cover">
+                                                <% } else { %>
+                                                    <img src="/static/images/<%= post.userId.profilePhoto %>"
+                                                        alt="Profile Picture" class="w-full h-full object-cover">
+                                                    <% } %>
+                                        </div>
+                                    </a>
+                                    <div class="ml-4">
+                                        <a href="/profile/user/<%= post.userId.username %>">
+                                            <h4 class="font-bold">
+                                                <%= post.userId.username %>
+                                            </h4>
+                                        </a>
+                                        <p class="text-gray-600 text-sm">
+                                            <%= post.location %>
+                                        </p>
+                                    </div>
+
+
+
+                                    <!-- Üç Nokta Menü -->
+                                    <div class="ml-auto relative">
+                                        <% if (post.userId.username===user.username) { %>
+                                            <button class="menu-button">
+                                                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M12 6v.01M12 12v.01M12 18v.01"></path>
+                                                </svg>
+                                            </button>
+                                            <% } %>
+
+                                                <div
+                                                    class="menu-content hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
+                                                    <ul>
+                                                        <li><a href="/change-privacy/<%= post._id %>"
+                                                                class="block px-4 py-2 text-gray-800 font-bold hover:bg-gray-200 rounded-lg">Change
+                                                                Privacy</a>
+                                                        </li>
+                                                        <% if (post.privacy==="private" ) { %>
+                                                            <li>
+                                                                <p
+                                                                    class="block px-4 py-2 text-red-600 text-center font-bold">
+                                                                    <%= post.privacy %>
+                                                                </p>
+                                                            </li>
+                                                            <% } %>
+                                                                <% if (post.privacy==="public" ) { %>
+                                                                    <li>
+                                                                        <p
+                                                                            class="block px-4 py-2 text-green-600 text-center font-bold">
+                                                                            <%= post.privacy %>
+                                                                        </p>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <li><a href="/delete-post/<%= post._id %>"
+                                                                                class="block px-4 py-2 text-red-600 hover:bg-gray-200 font-bold rounded-lg">Sil</a>
+                                                                        </li>
+                                                    </ul>
+                                                </div>
+                                    </div>
+
+                                </div>
+                                <!-- Post İçeriği -->
+                                <div class="flex-1 flex items-center justify-center overflow-hidden">
+                                    <img src="/static/images/<%= post.image %>" alt="Post"
+                                        class="w-full h-full object-cover">
+                                </div>
+                                <div class="p-4 flex flex-col">
+                                    <div class="flex space-x-4 mb-2">
+                                        <div class="like-container flex items-center space-x-2">
+                                            <button class="like-button" data-post-id="<%= post._id %>"
+                                                onclick="updateLikes(this)">
+                                                <img id="like-icon-<%= post._id %>"
+                                                    src="<%= post.likes.map(id => id.toString()).includes(user._id.toString()) ? '/static/images/heart_filled.png' : '/static/images/heart.png' %>"
+                                                    class="w-6 h-6 rounded-full" alt="Like Icon">
+                                            </button>
+                                            <span class="like-count text-gray-600 font-bold"
+                                                id="like-count-<%= post._id %>">
+                                                <%= post.likes.length %>
+                                            </span>
+                                        </div>
+
+                                        <button class="comment-button">
+                                            <a href="/comment/<%= post._id %>" class="flex items-center space-x-2">
+                                                <img src="/static/images/comment.png" alt="Comment"
+                                                    class="w-6 h-6 rounded-lg">
+                                                <span class="text-gray-600 font-bold">
+                                                    <% let totalComments=post.comments.length; let
+                                                        totalReplies=post.comments.reduce((acc, comment)=> acc +
+                                                        comment.replies.length, 0);
+                                                        let totalCommentsAndReplies = totalComments + totalReplies;
+                                                        %>
+                                                        <%= totalCommentsAndReplies %>
+                                                </span>
+                                            </a>
+                                        </button>
+                                    </div>
+                                    <div class="flex-1 flex flex-col">
+                                        <p class="text-gray-600">
+                                            <span class="font-bold text-gray-700">
+                                                <%= post.userId.username %>
+                                            </span>
+                                            <%= post.content %>
+                                        </p>
+                                        <p class="text-gray-600 mt-2">
+                                            <%= post.createdAt %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </section>
+                </div>
+        </main>
+
+        <script>
+            function updateLikes(button) {
+                const postId = button.getAttribute('data-post-id');
+                const likeCountSpan = button.nextElementSibling;
+                const likeIcon = button.querySelector('img');
+
+                fetch(`/index/${postId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.likeCount !== undefined) {
+                            likeCountSpan.textContent = data.likeCount;
+                        }
+
+                        if (data.isLiked !== undefined) {
+                            likeIcon.src = data.isLiked ? '/static/images/heart_filled.png' : '/static/images/heart.png';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const menuButton = document.querySelector(".menu-button"); // Menü butonu
+                const menuContent = document.querySelector(".menu-content"); // Menü içeriği
+
+                menuButton.addEventListener("click", function (event) {
+                    event.stopPropagation(); // Tıklama olayını durdur
+                    menuContent.classList.toggle("hidden"); // Menü içeriğini aç/kapa
+                });
+
+                // Menü dışında bir yere tıklanırsa menüyü kapat
+                document.addEventListener("click", function () {
+                    if (!menuContent.classList.contains("hidden")) {
+                        menuContent.classList.add("hidden");
+                    }
+                });
+            });
+
+        </script>
+
+</body>
+
+</html>

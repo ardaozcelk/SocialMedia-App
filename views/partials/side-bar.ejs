@@ -1,0 +1,148 @@
+<style>
+    /* Dropdown menu için */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        /* Positioning relative to parent */
+        top: 0;
+        /* Adjust this if necessary */
+        left: 100%;
+        /* Position to the right of the button */
+        margin-left: 10px;
+        /* Space between button and dropdown */
+        z-index: 10;
+        /* Ensure it is above other elements */
+    }
+
+    .sidebar ul li {
+        position: relative;
+        /* To make sure dropdown positions correctly relative to this item */
+    }
+
+    /* Show dropdown when button is clicked */
+    .show {
+        display: block;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const settingsButton = document.getElementById("settings-button");
+        const dropdownMenu = document.getElementById("settings-dropdown");
+
+        settingsButton.addEventListener("click", function () {
+            // Toggle the dropdown menu visibility
+            dropdownMenu.classList.toggle("show");
+        });
+
+        // Close the dropdown menu when clicking outside of it
+        document.addEventListener("click", function (event) {
+            if (!settingsButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove("show");
+            }
+        });
+    });
+
+
+</script>
+
+<aside class="sidebar w-64 h-screen bg-white shadow-lg fixed top-0 left-0 p-4">
+    <h1 class="pt-4 pl-12 text-3xl font-bold mb-6">
+        <span class="text-green-600">Fri</span><span class="text-yellow-500">endly</span>
+    </h1>
+    <ul class="pt-12 space-y-5 font-medium side sidebar">
+        <li>
+            <a href="/"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <div class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                    <img src="/static/images/home.png" class="w-8 h-8 p-0 rounded-md ">
+                    <span class="flex-1 ms-3 text-2xl whitespace-nowrap">&nbsp&nbspHome</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/search"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ">
+                <div class="inline-flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0 ">
+                    <img src="/static/images/search.png" class="w-8 h-8 p-0 rounded-md">
+                    <span class="flex-1 ms-3 text-2xl whitespace-nowrap">&nbsp&nbspSearch</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <div class="inline-flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0 ">
+                    <img src="/static/images/notification.png" class="w-8 h-8 p-0 rounded-md">
+                    <span class="flex-1 ms-3 text-2xl whitespace-nowrap">&nbsp&nbspNotifications
+                        &nbsp&nbsp</span>
+                </div>
+                <span
+                    class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-xl text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">12</span>
+            </a>
+        </li>
+        <li>
+            <a href="/add-post"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <div class="inline-flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0 ">
+                    <img src="/static/images/upload.png" class="w-8 h-8 p-0 rounded-md">
+                    <span class="flex-1 ms-3 text-2xl whitespace-nowrap">&nbsp&nbspUpload</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/profile"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <div class="inline-flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0 ">
+                    <img src="/static/images/profile.png" class="w-8 h-8 p-0 rounded-md">
+                    <span class="flex-1 ms-3 text-2xl whitespace-nowrap">&nbsp&nbspMy Profile</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                id="settings-button">
+                <div class="inline-flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                    <button class="flex">
+                        <img src="/static/images/setting.png" class="w-8 h-8 p-0 rounded-md">
+                        <span class="flex-1 ms-3 text-2xl whitespace-nowrap">&nbsp;&nbsp;Settings</span>
+                    </button>
+                </div>
+            </a>
+            <!-- Dropdown menu -->
+            <div id="settings-dropdown" class="hidden bg-white border rounded-lg shadow-lg p-4 text-gray-900">
+                <div class="mb-3 hover:bg-gray-200 hover:shadow-lg p-1 rounded-lg ">
+                    <a href="/<%= user.username %>/activity">
+                        <button class="flex space-x-4 text-xl">
+                        <img src="/static/images/activity.png" class="w-7 h-7" ><p>Your Activity</p>
+                    </button>
+                    </a>
+                </div>
+                <div class="mb-3 hover:bg-gray-200 hover:shadow-lg p-1 rounded-lg ">
+                    <a href="/<%= user.username %>/reset-password">
+                        <button class="flex space-x-4 text-xl">
+                        <img src="/static/images/reset-password.png" class="w-7 h-7" ><p>Reset Password</p>
+                    </button>
+                    </a>
+                </div>
+                <div class="mb-3 hover:bg-gray-200 hover:shadow-lg p-1 rounded-lg ">
+                    <a href="/<%= user.username %>/archive">
+                        <button class="flex space-x-4 text-xl">
+                        <img src="/static/images/archive.png" class="w-7 h-7" ><p>Archive</p>
+                    </button>
+                    </a>
+                </div>
+                
+            </div>
+        </li>
+        <li>
+            <a href="/account/logout"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <div class="inline-flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0 ">
+                    <img src="/static/images/logout.png" class="w-8 h-8 p-0 rounded-md">
+                    <span class="flex-1 ms-3 text-2xl whitespace-nowrap">&nbsp&nbspLog Out</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+</aside>

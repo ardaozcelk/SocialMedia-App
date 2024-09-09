@@ -1,0 +1,100 @@
+<div class="bg-white shadow-lg rounded-lg overflow-hidden w-4/5 max-h-screen flex flex-col">
+    <div class="p-2 flex items-center">
+        <a href="/profile/user/<%= post.userId.username %>">
+            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300">
+                <% if (post.userId.profilePhoto === undefined) { %>
+                    <img src="/static/images/isEmptyUser.png" alt="Profile Picture" class="w-full h-full object-cover">
+                <% } else { %>
+                    <img src="/static/images/<%= post.userId.profilePhoto %>" alt="Profile Picture" class="w-full h-full object-cover">
+                <% } %>
+            </div>
+        </a>
+        <div class="ml-4">
+            <a href="/profile/user/<%= post.userId.username %>">
+                <h4 class="font-bold">
+                    <%= post.userId.username %>
+                </h4>
+            </a>
+            <p class="text-gray-600 text-sm">
+                <%= post.location %>
+            </p>
+        </div>
+    </div>
+    <div class="flex-1 flex items-center justify-center overflow-hidden">
+        <img src="/static/images/<%= post.image %>" alt="Post" class="w-full h-full object-cover">
+    </div>
+    <div class="p-4 flex flex-col">
+        <div class="flex space-x-4 mb-2">
+            <div class="like-container flex items-center space-x-2">
+                <button class="like-button" data-post-id="<%= post._id %>" onclick="updateLikes(this)">
+                    <img id="like-icon-<%= post._id %>"
+                        src="<%= post.likes.map(id => id.toString()).includes(user._id.toString()) ? '/static/images/heart_filled.png' : '/static/images/heart.png' %>"
+                        class="w-6 h-6 rounded-full" alt="Like Icon">
+                </button>
+                <span class="like-count text-gray-600 font-bold" id="like-count-<%= post._id %>">
+                    <%= post.likes.length %>
+                </span>
+            </div>
+
+            <button class="comment-button">
+                <a href="/comment/<%= post._id %>" class="flex items-center space-x-2">
+                    <img src="/static/images/comment.png" alt="Comment" class="w-6 h-6 rounded-lg">
+                    <span class="text-gray-600 font-bold">
+                        <% let totalComments = post.comments.length; 
+                        let totalReplies = post.comments.reduce((acc, comment) => acc + comment.replies.length, 0);
+                        let totalCommentsAndReplies = totalComments + totalReplies;
+                        %>
+                        <%= totalCommentsAndReplies %>
+                    </span>
+                </a>
+            </button>
+        </div>
+        <div class="flex-1 flex flex-col">
+            <p class="text-gray-600">
+                <span class="font-bold text-gray-700">
+                    <%= post.userId.username %>
+                </span>
+                <%= post.content %>
+            </p>
+            <p class="text-gray-600 mt-2">
+                <%= post.createdAt %>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    function updateLikes(button) {
+        const postId = button.getAttribute('data-post-id');
+        const likeCountSpan = button.nextElementSibling;
+        const likeIcon = button.querySelector('img');
+
+        fetch(`/index/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.likeCount !== undefined) {
+                    likeCountSpan.textContent = data.likeCount;
+                }
+
+                if (data.isLiked !== undefined) {
+                    likeIcon.src = data.isLiked ? '/static/images/heart_filled.png' : '/static/images/heart.png';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+
+
+
+</script>

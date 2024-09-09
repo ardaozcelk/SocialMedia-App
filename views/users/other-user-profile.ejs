@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title>Friendly</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gupter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Gupter", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        .profile-picture-container {
+            display: flex;
+            justify-content: center;
+            /* Yatayda ortalar, değiştirebilirsiniz */
+            align-items: flex-start;
+            /* Dikeyde yukarıya hizalar */
+            width: 10rem;
+            /* Örnek genişlik */
+            height: 10rem;
+            /* Örnek yükseklik */
+            border: 4px solid #d1d5db;
+            /* Örnek sınır rengi */
+            border-radius: 9999px;
+            /* Yuvarlak köşeler için */
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            /* Alt boşluk */
+            margin-right: 2rem;
+            /* Sağ boşluk (medium ekranlarda) */
+        }
+    </style>
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const followersButton = document.getElementById('followersButton');
+        const followersDropdown = document.getElementById('followersDropdown');
+        const followingButton = document.getElementById('followingButton');
+        const followingDropdown = document.getElementById('followingDropdown');
+        const followerCount = document.getElementById('follower-count');
+        const followButton = document.querySelector('.follow-button'); // Follow butonu seçimi
+        const username = followButton.getAttribute('data-username'); // Takip edilen kullanıcının adı
+
+        // Dropdown menüsünü göster/gizle
+        followersButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            followersDropdown.classList.toggle('hidden');
+        });
+
+        followingButton.addEventListener('click', () => {
+            followingDropdown.classList.toggle('hidden');
+            followersDropdown.classList.add('hidden'); // Diğer pencereyi gizle
+        });
+
+        // Sayfa yüklendiğinde takipçi sayısını ve takip durumunu kontrol et
+        fetch(`/profile/user/${username}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isFollowing !== undefined) {
+                    followButton.textContent = data.isFollowing ? 'UNFOLLOW' : 'FOLLOW';
+                    followButton.classList.toggle('bg-gray-600', data.isFollowing);
+                    followButton.classList.toggle('bg-gray-500', !data.isFollowing);
+                }
+                if (data.countFollower !== undefined) {
+                    followerCount.textContent = data.countFollower;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+
+        // Dışarı tıklanıldığında dropdown menüsünü kapat
+        document.addEventListener('click', (event) => {
+            if (!followersButton.contains(event.target) && !followersDropdown.contains(event.target)) {
+                followersDropdown.classList.add('hidden');
+            }
+            if (!followingButton.contains(event.target) && !followingDropdown.contains(event.target)) {
+                followingDropdown.classList.add('hidden');
+            }
+        });
+    });
+
+    function updateFollowStatus(button) {
+        const username = button.getAttribute('data-username');
+        const followerCount = document.getElementById('follower-count');
+
+        fetch(`/profile/user/${username}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isFollowing !== undefined) {
+                    button.textContent = data.isFollowing ? 'UNFOLLOW' : 'FOLLOW';
+                    button.classList.toggle('bg-gray-600', data.isFollowing);
+                    button.classList.toggle('bg-gray-500', !data.isFollowing);
+                }
+
+                if (data.countFollower !== undefined) {
+                    followerCount.textContent = data.countFollower;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+</script>
+
+<body class="bg-gray-100">
+    <!-- Header -->
+    <div class="main-content ml-64 p-4">
+        <header class="bg-white shadow-md py-4 mb-8 rounded-lg">
+            <div class="container mx-auto px-4 flex items-center justify-between">
+                <a href="/profile">
+                    <div class="flex space-x-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300">
+                            <% if (my.profilePhoto===undefined ) { %>
+                                <img src="/static/images/isEmptyUser.png" alt="Profile Picture"
+                                    class="w-full h-full object-cover">
+                                <% } else { %>
+                                    <img src="/static/images/<%= my.profilePhoto %>" alt="Profile Picture"
+                                        class="w-full h-full object-cover">
+                                    <% } %>
+                        </div>
+                        <h2 class=" text-2xl font-bold text-gray-900">
+                            @<%= my.username %>
+                        </h2>
+                    </div>
+                </a>
+                <div class="text-xl space-x-4">
+                    <a href="/" class="text-gray-900 rounded-lg hover:bg-gray-100 p-2">Home</a>
+                    <a href="/Profile" class="text-gray-900 rounded-lg hover:bg-gray-100 p-2">Profile</a>
+                    <a href="#" class="text-gray-900 rounded-lg hover:bg-gray-100 p-2">Notifications</a>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!-- Main Content -->
+    <main class="main-content ml-72 p-4">
+
+
+        <!-- Sidebar -->
+        <%- include('../partials/side-bar') %>
+
+            <!-- Profile Section -->
+            <section class="flex flex-col md:flex-row items-center p-6 md:p-10 bg-white shadow-md rounded-lg mb-8">
+                <!-- Profile Picture -->
+                <div class="profile-picture-container">
+                    <% if (!user.profilePhoto) { %>
+                        <img src="/static/images/isEmptyUser.png" alt="Profile Picture"
+                            class="w-full h-full object-cover">
+                        <% } else { %>
+                            <img src="/static/images/<%= user.profilePhoto %>" alt="Profile Picture"
+                                class="w-full h-full object-cover">
+                            <% } %>
+                </div>
+
+
+                <!-- Profile Info -->
+                <div class="flex-1 text-center md:text-left">
+                    <div class="flex space-x-6 mb-4">
+                        <p class="text-lg text-gray-800 mb-2">@<%= user.username %>
+                        </p>
+                        <!-- Follow/Unfollow Button -->
+                        <div class="text-center md:text-left">
+                            <button
+                                class="follow-button bg-gray-500 text-white px-3 py-1.5 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                data-username="<%= user.username %>" onclick="updateFollowStatus(this)">
+                                <% if (isFollowing) { %>
+                                    UNFOLLOW
+                                    <% } else { %>
+                                        FOLLOW
+                                        <% } %>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex flex-wrap justify-center md:justify-start gap-8 mb-6">
+                        <div class="text-center">
+                            <span class="block text-xl font-semibold text-gray-900">
+                                <%= posts.length %>
+                            </span>
+                            <span class="text-gray-600">Posts</span>
+                        </div>
+                        <!-- Followers -->
+                        <div>
+                            <button id="followersButton">
+                                <div class="text-center">
+                                    <span id="follower-count" class="block text-xl font-semibold text-gray-900">
+                                        <%= countFollower %>
+                                    </span>
+                                    <span class="text-gray-600">Following</span>
+                                </div>
+                            </button>
+                            <div id="followersDropdown"
+                                class="absolute hidden mt-2 w-60 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                                <% if (user.followers.length===0) { %>
+                                    <p class="px-4 py-2 text-gray-600 font-bold">No users to show</p>
+                                    <% } else { %>
+                                        <ul class="py-2">
+                                            <% user.followers.forEach(follower=> { %>
+                                                <li class="px-4 py-2 hover:bg-gray-100 transition-colors duration-150">
+                                                    <a href="/profile/user/<%= follower.username %>"
+                                                        class="text-gray-900">
+                                                        <div class="flex items-center space-x-4 font-bold">
+                                                            <% if (follower.profilePhoto) { %>
+                                                                <img src="/static/images/<%= follower.profilePhoto %>"
+                                                                    class="w-11 h-11 rounded-full" alt="Profile Photo">
+                                                                <% } else { %>
+                                                                    <img src="/static/images/isEmptyUser.png"
+                                                                        class="w-11 h-11 rounded-full"
+                                                                        alt="Default Profile Photo">
+                                                                    <% } %>
+                                                                        <div>
+                                                                            <p>
+                                                                                <%= follower.name %>
+                                                                            </p>
+                                                                            <p class="text-sm text-gray-600">@<%=
+                                                                                    follower.username %>
+                                                                            </p>
+                                                                        </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <% }) %>
+                                        </ul>
+                                        <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Following -->
+                        <div>
+                            <button id="followingButton">
+                                <div class="text-center">
+                                    <span class="block text-xl font-semibold text-gray-900">
+                                        <%= user.following.length %>
+                                    </span>
+                                    <span class="text-gray-600">Following</span>
+                                </div>
+                            </button>
+                            <div id="followingDropdown"
+                                class="absolute hidden mt-2 w-60 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                                <% if (user.following.length===0) { %>
+                                    <p class="px-4 py-2 text-gray-600 font-bold">No users to show</p>
+                                    <% } else { %>
+                                        <ul class="py-2">
+                                            <% user.following.forEach(followedUser=> { %>
+                                                <li class="px-4 py-2 hover:bg-gray-100 transition-colors duration-150">
+                                                    <a href="/profile/user/<%= followedUser.username %>"
+                                                        class="text-gray-900">
+                                                        <div class="flex items-center space-x-4 font-bold">
+                                                            <% if (followedUser.profilePhoto) { %>
+                                                                <img src="/static/images/<%= followedUser.profilePhoto %>"
+                                                                    class="w-11 h-11 rounded-full" alt="Profile Photo">
+                                                                <% } else { %>
+                                                                    <img src="/static/images/isEmptyUser.png"
+                                                                        class="w-11 h-11 rounded-full"
+                                                                        alt="Default Profile Photo">
+                                                                    <% } %>
+                                                                        <div>
+                                                                            <p>
+                                                                                <%= followedUser.name %>
+                                                                            </p>
+                                                                            <p class="text-sm text-gray-600">@<%=
+                                                                                    followedUser.username %>
+                                                                            </p>
+                                                                        </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <% }) %>
+                                                    <% } %>
+
+                                        </ul>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <h2 class="text-lg md:text-3xl font-semibold mb-2">
+                        <%= user.name %>
+                    </h2>
+                    <p id="biography-preview" class="text-gray-700 text-lg"></p>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const biography = `<%= user.biography %>`;
+                            const formattedBiography = biography.replace(/\n/g, '<br>');
+                            document.getElementById('biography-preview').innerHTML = formattedBiography;
+                        });
+                    </script>
+
+
+
+
+                </div>
+            </section>
+
+
+
+            <!-- Posts Section -->
+            <section class="py-8 bg-white p-4 rounded-lg shadow-xl">
+                <h3 class="text-2xl font-bold">Posts</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+
+                    <% if (posts.length===0) { %>
+                        <div class="flex">
+                            <div class="text-center p-8 bg-white rounded-lg">
+                                <p class="text-xl font-medium text-gray-700">No photo shared yet</p>
+                            </div>
+                        </div>
+                        <% } %>
+                            <% posts.forEach(post=> { %>
+                                <button>
+                                    <a href="/profile/<%= post._id %>">
+                                        <div
+                                            class="w-full h-96 bg-gray-300 flex items-center justify-center overflow-hidden rounded">
+                                            <img src="/static/images/<%= post.image %>" alt=""
+                                                class="w-full h-full object-cover">
+                                        </div>
+                                    </a>
+                                </button>
+
+                                <% }) %>
+                </div>
+            </section>
+    </main>
+
+
+</body>
+
+</html>

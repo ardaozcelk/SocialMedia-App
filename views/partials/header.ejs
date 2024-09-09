@@ -1,0 +1,23 @@
+<header class="bg-white shadow-md py-4 mb-8 rounded-lg">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+        <a href="/profile">
+        <div class="flex space-x-4">
+            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300">
+                <% if (user.profilePhoto===undefined ) { %>
+                    <img src="/static/images/isEmptyUser.png" alt="Profile Picture" class="w-full h-full object-cover">
+                    <% } else { %>
+                        <img src="/static/images/<%= user.profilePhoto %>" alt="Profile Picture"
+                            class="w-full h-full object-cover">
+                        <% } %>
+            </div>
+            <h2 class=" text-2xl font-bold text-gray-900">
+                @<%= user.username %>
+            </h2>
+        </div></a>
+        <div class="text-xl space-x-4">
+            <a href="/" class="text-gray-900 rounded-lg hover:bg-gray-100 p-2">Home</a>
+            <a href="/Profile" class="text-gray-900 rounded-lg hover:bg-gray-100 p-2">Profile</a>
+            <a href="#" class="text-gray-900 rounded-lg hover:bg-gray-100 p-2">Notifications</a>
+        </div>
+    </div>
+</header>
