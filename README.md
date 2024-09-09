@@ -28,6 +28,9 @@ A social media platform where users can create posts, like, comment, and follow 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/35ab686d-eeef-4284-96bc-a72613a1e68a" alt="comment">
 </p>
+<p align="center">
+  You can comment on posts and reply to comments. If you want, you can also delete the comment or reply.
+</p>
 
 <h2 align="center">Profile Page</h2>
 <p align="center">
