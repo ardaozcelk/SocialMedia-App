@@ -51,6 +51,14 @@ And enter your username and mail information on the redirected page. If the info
   <img src="https://github.com/user-attachments/assets/e1930cbc-9944-48b2-a9bf-91e69bcc1fcf" alt="add_post">
 </p>
 
+<h2 align="center">Change Privacy</h2>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/24039f05-86f3-4d2e-8bc8-c1a3f43a9932" alt="change-privacy">
+</p>
+<p align="center">
+  You can change the privacy attribute of the post. Only the user can see the private posts. You can access these private posts from the archive.
+</p>
+
 <h2 align="center">Activity Page</h2>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d5c1fe2c-0aee-41b6-b44d-90af8d04f54f" alt="activity">
