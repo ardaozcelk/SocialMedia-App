@@ -1,4 +1,3 @@
-## Social Media App (https://github.com/ardaozcelk/SocialMedia-App)
 <h2 align="center">Hello, this is my social media app. Let's start the introduction</h2>
 
 A social media platform where users can create posts, like, comment, and follow each other.
